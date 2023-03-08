@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Card.scss';
 
 interface ICard {
@@ -8,13 +9,14 @@ interface ICard {
   }
 
 const Card = ({id, name, species, image}: ICard): JSX.Element => (
-    <div className='card-wrapper'>
+    <Link className='card-wrapper' to={`/character/:${id}`}>
         <img className='character-image' src={image} alt={name} />
         <div className='headline'>
             <h6 className='name'>{name}</h6>
             <p className='species'>{species}</p>
         </div>
-    </div>
+    </Link>
+
 );
 
 export default Card;
