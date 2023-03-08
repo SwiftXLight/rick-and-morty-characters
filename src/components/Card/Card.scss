@@ -1,0 +1,45 @@
+.card-wrapper {
+    max-width: 240px;
+    max-height: 400px;
+    border-radius: 8px 8px 4px 4px;
+    margin: 0 auto;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2), 
+                0px 3px 4px rgba(0, 0, 0, 0.12), 
+                0px 2px 4px rgba(0, 0, 0, 0.14);
+}
+
+.character-image {
+    width: 240px;
+    height: 168px;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.headline {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px;
+}
+
+.name {
+    margin: 0;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    align-items: center;
+    letter-spacing: 0.15px;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.species {
+    margin: 0;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.25px;
+    color: rgba(0, 0, 0, 0.6);
+    mix-blend-mode: normal;
+}
