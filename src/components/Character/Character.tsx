@@ -37,20 +37,20 @@ export default function Character() {
     
     return (
         <>
-        <a className='back-wrapper' href="/">
-            <img src={arrow} alt="arrow" />
-            <h3>Go back</h3>
-        </a>
-        <div className='wrapper'>
-            <img className='photo' src={character.image} alt={character.name} />
-            <h2>{character.name}</h2>
-            <h6>Informations:</h6>
-            <p><span className='p-title'>Gender</span><br/><span className='p-label'>{character.gender || 'unknown'}</span></p>
-            <p><span className='p-title'>Status</span><br/><span className='p-label'>{character.status || 'unknown'}</span></p>
-            <p><span className='p-title'>Specie</span><br/><span className='p-label'>{character.species || 'unknown'}</span></p>
-            <p><span className='p-title'>Origin</span><br/><span className='p-label'>{realOrigin || 'unknown'}</span></p>
-            <p><span className='p-title'>Type</span><br/><span className='p-label'>{character.type || 'unknown'}</span></p>
-        </div>
+            <a className='back-wrapper' href="/">
+                <img src={arrow} alt="arrow" />
+                <h3 className='back-text'>Go back</h3>
+            </a>
+            <div className='wrapper'>
+                <img className='photo' src={character.image} alt={character.name} />
+                <h2 className='name-character'>{character.name}</h2>
+                <h6 className='info'>Informations:</h6>
+                <p className='paragraph'><span className='p-title'>Gender</span><br/><span className='p-label'>{character.gender || 'unknown'}</span></p>
+                <p className='paragraph'><span className='p-title'>Status</span><br/><span className='p-label'>{character.status || 'unknown'}</span></p>
+                <p className='paragraph'><span className='p-title'>Specie</span><br/><span className='p-label'>{character.species || 'unknown'}</span></p>
+                <p className='paragraph'><span className='p-title'>Origin</span><br/><span className='p-label'>{realOrigin || 'unknown'}</span></p>
+                <p className='paragraph'><span className='p-title'>Type</span><br/><span className='p-label'>{character.type || 'unknown'}</span></p>
+            </div>
         </>
     )
 };
