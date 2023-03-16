@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Character.scss';
+import arrow from '../../assets/arrow_back_24px.svg'
 
 interface Icharacter {
     name: string;
@@ -7,6 +8,7 @@ interface Icharacter {
     status: string;
     species: string;
     type: string;
+    image: string;
 }
 
 export default function Character() {
@@ -15,7 +17,8 @@ export default function Character() {
         gender: '',
         status: '',
         species: '',
-        type: ''
+        type: '',
+        image: ''
     });
     const [realOrigin, setRealOrigin] = useState();
     useEffect(() => {
@@ -34,14 +37,19 @@ export default function Character() {
     
     return (
         <>
-        <a href="/">Back</a>
-        <div>
+        <a className='back-wrapper' href="/">
+            <img src={arrow} alt="arrow" />
+            <h3>Go back</h3>
+        </a>
+        <div className='wrapper'>
+            <img className='photo' src={character.image} alt={character.name} />
             <h2>{character.name}</h2>
-            <p>Gender<br/>{character.gender}</p>
-            <p>Status<br/>{character.status}</p>
-            <p>Specie<br/>{character.species}</p>
-            <p>Origin<br/>{realOrigin}</p>
-            <p>Type<br/>{character.type}</p>
+            <h6>Informations:</h6>
+            <p><span className='p-title'>Gender</span><br/><span className='p-label'>{character.gender || 'unknown'}</span></p>
+            <p><span className='p-title'>Status</span><br/><span className='p-label'>{character.status || 'unknown'}</span></p>
+            <p><span className='p-title'>Specie</span><br/><span className='p-label'>{character.species || 'unknown'}</span></p>
+            <p><span className='p-title'>Origin</span><br/><span className='p-label'>{realOrigin || 'unknown'}</span></p>
+            <p><span className='p-title'>Type</span><br/><span className='p-label'>{character.type || 'unknown'}</span></p>
         </div>
         </>
     )

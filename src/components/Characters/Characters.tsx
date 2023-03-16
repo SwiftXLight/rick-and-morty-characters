@@ -5,7 +5,7 @@ import './Characters.scss';
 export default function Characters() {
     const [list, setList] = useState<any[]>([]);
     useEffect(() => {
-        fetch("https://rickandmortyapi.com/api/character?page=2")
+        fetch("https://rickandmortyapi.com/api/character?page=1")
             .then((res) => res.json())
             .then(data => {
                 setList(data.results);
