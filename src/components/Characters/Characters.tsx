@@ -7,7 +7,7 @@ import searchIcon from '../../assets/search-icon.svg';
 export default function Characters() {
     const inputRef = useRef<HTMLInputElement>(null);;
     const [maxCards, setMaxCards] = useState(Number(localStorage.getItem('maxCards')) || 20);
-    const [inputValue, setInputValue] = useState('');
+    const [inputValue, setInputValue] = useState(localStorage.getItem('inputValue') || '');
     const [list, setList] = useState<any>([]);
     const [isLoading, setIsLoading] = useState(true);
     const endpointUrls: any = [];
@@ -67,6 +67,7 @@ export default function Characters() {
 
     const handleInputChange = (e: any) => {
         setInputValue(e.target.value);
+        localStorage.setItem('inputValue', e.target.value);
     };
     const filteredCharacters = list.filter((character: any) =>
         character.name.toLowerCase().includes(inputValue.toLowerCase())
