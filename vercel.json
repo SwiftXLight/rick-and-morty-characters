@@ -1,5 +1,3 @@
 {
-    "build": {
-      "command": "npm install --force && npm run build"
-    }
+    "build": "npm install --force && npm run build"
   }
