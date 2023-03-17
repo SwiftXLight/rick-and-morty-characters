@@ -7,7 +7,6 @@ export default function Characters() {
     const [maxCards, setMaxCards] = useState(Number(localStorage.getItem('maxCards')) || 20);
     const [inputValue, setInputValue] = useState('');
     const [list, setList] = useState<any>([]);
-    // const [sortedCards, setSortedCards] = useState<any>([]);
     const [isLoading, setIsLoading] = useState(true);
     const endpointUrls: any = [];
     const createUrls = () => {
@@ -24,6 +23,17 @@ export default function Characters() {
                 const responses = await Promise.all(promises);
                 const data: any = await Promise.all(responses.map((response) => response.json()));
                 let results = data.map((el: any) => el.results).flat();
+                results.sort((a: any, b: any) => {
+                    const nameA = a.name.toUpperCase();
+                    const nameB = b.name.toUpperCase();
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                });
                 setList(results);
             } catch (e) {
                 console.log(e);
@@ -56,13 +66,12 @@ export default function Characters() {
     const handleInputChange = (e: any) => {
         setInputValue(e.target.value);
     };
-    // const filteredData = list.filter((item) =>
-    //     item.toLowerCase().includes(inputValue.toLowerCase())
-    // );
-    // console.log(list.forEach((el) => console.log(el.name)));
+    const filteredCharacters = list.filter((character: any) =>
+        character.name.toLowerCase().includes(inputValue.toLowerCase())
+    );
     
-    const listCards = list === undefined ? <div>Loading...</div> : list.length === 0 ? <div>Empty</div> :
-    list?.slice(0, maxCards).map((item: any, idx: number) => {
+    const listCards = isLoading ? <div>Loading...</div> : filteredCharacters.length === 0 || filteredCharacters === undefined ? <div>Empty</div> :
+    filteredCharacters?.slice(0, maxCards).map((item: any, idx: number) => {
         return <Card key={idx} id={item.id} name={item.name} species={item.species} image={item.image} />
     });
     return (
@@ -70,14 +79,14 @@ export default function Characters() {
             <img className='logo' src={logo} alt="Rick & Morty" />
             <div className='filter'>
                 <img src="" alt="" />
-                <input type="text" value={inputValue} onChange={handleInputChange} />
+                <input type="text" value={inputValue} onChange={handleInputChange} placeholder="Filter by name..." />
             </div>
             <div className='characters-wrapper'>
                 {listCards}
             </div>
             <div className='buttons-wrapper'>
                 <button className='button' onClick={loadLess}>Load less</button>
-                <p>Cards: {isLoading !== true ? maxCards : <span>Loading...</span>}</p>
+                <p>Cards: {maxCards}</p>
                 <button className='button' onClick={loadMore}>Load more</button>
             </div>
         </div>
