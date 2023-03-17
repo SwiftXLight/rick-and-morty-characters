@@ -1,40 +1,56 @@
 import { useEffect, useState } from 'react';
 import Card from '../Card/Card';
 import './Characters.scss';
-import logo from '../../assets/Rick&Morty.png'
+import logo from '../../assets/Rick&Morty.png';
 
 export default function Characters() {
-    const [curPage, setCurPage] = useState(Number(localStorage.getItem('curPage')) || 1);
-    const [apiEndpoint, setApiEndpoint] = useState(`https://rickandmortyapi.com/api/character?page=${curPage}`);
+    const [maxCards, setMaxCards] = useState(Number(localStorage.getItem('maxCards')) || 20);
     const [inputValue, setInputValue] = useState('');
-
-    const [list, setList] = useState<any[]>([]);
-    useEffect(() => {
-        fetchData();
-        localStorage.setItem('curPage', curPage.toString());
-    }, [apiEndpoint]);
-
-    const fetchData = async () => {
-        const res = await fetch(apiEndpoint);
-        const data = await res.json();
-        setList(data.results);
+    const [list, setList] = useState<any>([]);
+    // const [sortedCards, setSortedCards] = useState<any>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const endpointUrls: any = [];
+    const createUrls = () => {
+        for (let i = 1; i <= 42; i++) {
+            endpointUrls.push(`https://rickandmortyapi.com/api/character?page=${i}`);
+        }
     };
 
-    const prevPage = function() {
-        let thisCurPage = curPage - 1;
-        if (thisCurPage < 1) {
-            thisCurPage = 1;
+    useEffect(() => {
+        const fetchCards = async () => {
+            try {
+                createUrls();
+                const promises = endpointUrls.map((url: string) => fetch(url));
+                const responses = await Promise.all(promises);
+                const data: any = await Promise.all(responses.map((response) => response.json()));
+                let results = data.map((el: any) => el.results).flat();
+                setList(results);
+            } catch (e) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
-        setCurPage(thisCurPage);
-        setApiEndpoint(`https://rickandmortyapi.com/api/character?page=${thisCurPage}`);
+        if (list.length === 0) {
+            fetchCards();
+        }
+    }, [list.length]);
+
+    const loadLess = function() {
+        let thisMaxCards = maxCards - 20;
+        if (thisMaxCards <= 0) {
+            thisMaxCards = 20;
+        }
+        setMaxCards(thisMaxCards);
+        localStorage.setItem('maxCards', thisMaxCards.toString());
     }
-    const nextPage = function() {
-        let thisCurPage = curPage + 1;
-        if (thisCurPage > 42) {
-            thisCurPage = 42;
+    const loadMore = function() {
+        let thisMaxCards = maxCards + 20;
+        if (thisMaxCards > 826) {
+            thisMaxCards = 826;
         }
-        setCurPage(thisCurPage);
-        setApiEndpoint(`https://rickandmortyapi.com/api/character?page=${thisCurPage}`);
+        setMaxCards(thisMaxCards);
+        localStorage.setItem('maxCards', thisMaxCards.toString());
     }
 
     const handleInputChange = (e: any) => {
@@ -46,23 +62,23 @@ export default function Characters() {
     // console.log(list.forEach((el) => console.log(el.name)));
     
     const listCards = list === undefined ? <div>Loading...</div> : list.length === 0 ? <div>Empty</div> :
-    list?.map((item: any, idx: number) => {
+    list?.slice(0, maxCards).map((item: any, idx: number) => {
         return <Card key={idx} id={item.id} name={item.name} species={item.species} image={item.image} />
     });
     return (
         <div className='wrapper'>
             <img className='logo' src={logo} alt="Rick & Morty" />
             <div className='filter'>
-                <img src="" alt="gfsg" />
+                <img src="" alt="" />
                 <input type="text" value={inputValue} onChange={handleInputChange} />
             </div>
             <div className='characters-wrapper'>
                 {listCards}
             </div>
             <div className='buttons-wrapper'>
-                <button className='button' onClick={prevPage}>Prev</button>
-                <p>page: {curPage}</p>
-                <button className='button' onClick={nextPage}>Next</button>
+                <button className='button' onClick={loadLess}>Load less</button>
+                <p>Cards: {isLoading !== true ? maxCards : <span>Loading...</span>}</p>
+                <button className='button' onClick={loadMore}>Load more</button>
             </div>
         </div>
     )
