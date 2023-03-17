@@ -3,6 +3,11 @@ import Card from '../Card/Card';
 import './Characters.scss';
 import logo from '../../assets/Rick&Morty.png';
 import searchIcon from '../../assets/search-icon.svg';
+import { gapi } from 'gapi-script';
+import Login from '../Login/Login';
+import Logout from '../Logout/Logout';
+
+const clientId = "241058858792-1bumls668p55plj4fcndvlguhqjkk8vo.apps.googleusercontent.com";
 
 export default function Characters() {
     const inputRef = useRef<HTMLInputElement>(null);;
@@ -18,6 +23,13 @@ export default function Characters() {
     };
 
     useEffect(() => {
+        function start() {
+            gapi.client.init({
+                clientId: clientId,
+                scope: ''
+            })
+        };
+        gapi.load('client:auth2', start);
         const fetchCards = async () => {
             try {
                 createUrls();
@@ -85,6 +97,10 @@ export default function Characters() {
     });
     return (
         <div className='wrapper'>
+            <div className='gmail-wrapper'>
+                <Login />
+                <Logout />
+            </div>
             <img className='logo' src={logo} alt="Rick & Morty" />
             <div className='filter' onClick={handleContainerClick}>
                 <img className='search-icon' src={searchIcon} alt="icon" onClick={handleImageClick} />
