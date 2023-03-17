@@ -7,9 +7,14 @@
 .logo {
     margin-top: 86px;
     margin-bottom: 16px;
+    @media only screen and (max-width: 620px) {
+        width: 80vw;
+    }
 }
 
 .filter {
+    width: 70vw;
+    position: relative;
     margin-bottom: 50px;
     box-sizing: border-box;
     display: flex;
@@ -17,8 +22,20 @@
     align-items: center;
     padding: 16px;
     gap: 8px;
+    padding: 16px;
     border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 8px;
+    cursor: text;
+}
+
+.search-icon {
+    cursor: text;
+}
+
+.filter-input {
+    border: transparent;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .characters-wrapper {
@@ -33,6 +50,9 @@
     align-items: center;
     gap: 40px;
     margin-bottom: 40px;
+    @media only screen and (max-width: 400px) {
+        gap: 10px;
+    }
 }
 
 .button {
